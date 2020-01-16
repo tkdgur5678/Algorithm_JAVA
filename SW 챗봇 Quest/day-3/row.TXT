@@ -1,0 +1,27 @@
+def getFaqContents(row):
+
+  # 전달받은 row에서 faq_tp, faq_seq_no 정보 추출
+  faq_tp = row['faq_tp'].string
+  faq_seq_no = row['faq_seq_no'].string
+
+  # url_format 이용하여 하나의 faq_seq_no 값을 가진 문서를
+  # 조회하기 위한 url 생성
+  faq_url = url_format.format(tocken=tocken,
+                              service='SearchDetailsFAQService',
+                              start_index=1, end_index=1,
+                              faq_type=faq_tp)\
+            + faq_seq_no
+
+  # url 정보를 이용하여 받은 정보(xml))를 soup 객체로 파싱    
+  response= requests.get(faq_url)
+  soup = BeautifulSoup(response.content, 'xml')
+  
+  # soup 객체에서 QUEST 태그 객체와 ANSWER 태그 객체에서 텍스트 정보 추출
+  faq_quest  = soup.find_all('QUEST')[0].string
+  faq_answer = soup.find_all('ANSWER')[0].string
+    
+  # 입력받은 row 값에 추출한 QUEST 정보와 ANSWER 정보를 추가 할당 후 반환
+  row['faq_quest'] = faq_quest
+  row['faq_answer'] = faq_answer
+    
+  return row

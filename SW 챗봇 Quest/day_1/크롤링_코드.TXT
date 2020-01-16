@@ -1,0 +1,353 @@
+'''
+from bs4 import BeautifulSoup
+import requests
+
+url = "http://google.com/"
+
+# 서버의 response 정보를 이용해 response 객체 생성
+response = requests.get(url)
+
+# response 객체에서 html 코드에 해당 부분 추출
+data = response.text
+
+# bs4를 이용하여 html 코드를 soup 객체로 파싱
+soup = BeautifulSoup(data, 'html.parser')
+
+# 문서 내에 모든 <a>  태그 정보를 찾아 list 로 반환
+tags = soup.find_all('a')
+
+
+for tag in tags:
+    print(tag.get('href'))
+'''
+#---------------------------------------------------
+'''
+import requests     # Import module
+
+# requests.get(url)         -- response object
+response = requests.get('https://www.google.com')
+
+# content
+print(response.content)
+
+#status codes
+print(response.status_code)
+
+# response.headers
+print(response.headers)
+
+for key,value in response.headers.items():
+    print(key,'   ',value)
+'''
+#---------------------------------------------------
+'''
+import requests
+from fake_useragent import UserAgent
+
+ua = UserAgent()
+
+header = {'user-agent':ua.chrome}
+
+page = requests.get('https://www.google.com',headers=header)
+
+print(page.content)
+for key,value in page.headers.items():
+    print(key,'   ',value)'''
+#---------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+def read_file(fileName):
+    file = open(fileName)
+    data = file.read()
+    file.close()
+    return data
+
+html_file = read_file('intro_to_soup_html.html')
+
+# soup object 객체 생성
+soup = BeautifulSoup(html_file,'lxml')
+
+# soup prettify
+print(soup.prettify())'''
+#---------------------------------------------------------------------------------
+'''import requests
+from fake_useragent import UserAgent
+
+ua = UserAgent()
+
+header = {'user-agent':ua.chrome}
+
+page = requests.get('http://www.consumerreports.org/cro/a-to-z-index/products/index.htm',headers=header)
+
+print(page.content)'''
+#---------------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+'''
+def read_file(fileName):
+    file = open(fileName)
+    data = file.read()
+    file.close()
+    return data
+'''
+soup = BeautifulSoup(read_file('tags.html'),'lxml')
+
+# meta 태그객체에 접근
+meta = soup.meta
+
+print(meta)
+# 태그 객체의 멤버변수 name 을 이용해 이름 정보 조회
+print(meta.name)'''
+#---------------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(read_file('tags.html'),'lxml')
+
+# meta 태그객체에 접근
+meta = soup.meta
+print(meta)
+
+# 태그 객체 함수 get() 을 이용하여 속성값에 접근
+print(meta.get('charset'))
+
+# key 값을 이용하여 속성값에 접근
+body = soup.body
+print(body['style'])
+body['style'] = 'some style'
+print(body['style'])'''
+
+#---------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(read_file('intro_to_soup_html.html'),'lxml')
+
+# 태그 객체의 .string 멤버 변수로 Navigable strings 값 조회
+title = soup.title
+print(title.string)
+
+# 태그 객체의 .replace_with("") 함수로 Navigable strings 값 변경
+title.string.replace_with("title has been changed")
+print(title.string)'''
+#---------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+
+# 이름을 이용한 태그 객체 접근
+p = soup.p
+print(p)'''
+#---------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+body = soup.body
+print(type(body. children))
+
+for child in body. children:
+    print(child if child is not None else '', end='\n\n')
+'''
+# ---------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+body = soup.body
+print(type(body.contents))
+
+for child in body.contents:
+    print(child if child is not None else '', end='\n\n\n\n')'''
+# ---------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+body = soup.body
+
+# .contents 를 이용한 자식 객체 조회
+children = [child for child in body.contents if child != '\n']
+print(len(children))'''
+
+''''# .descendants 를  이용한 자식 객체 조회
+for index,child in enumerate(soup.body.descendants):
+    print(index, '\t' , child if child != '\n' else '\\n')'''
+# ---------------------------------------------------------------------------
+
+#***************지금부터는 자식 객체에서 부모객체를 추출하는 방법!!*****************
+
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+title = soup.title
+
+parent = title.parent
+print(parent)
+
+# html
+html = soup.html
+print(type(html.parent))'''
+# ---------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+
+link = soup.a
+
+for parent in link.parents:
+    print(parent.name)'''
+#-----------------------------------------------------------------------------
+
+#*********동일레벨의 태그의 아래쪽을 이동하는 기능************
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+body = soup.body
+p = soup.body.p
+
+print(body.contents)
+#print(p)
+L=p.next_sibling
+S = L
+#print("L:",p.next_siblings)
+# .next_sibling 를 이용해 아래 있는 태그에 접근
+#print(p.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling)
+print(L.next_sibling)
+print("s",S.next_sibling)
+'''
+#-----------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+body = soup.body
+p = soup.body.p
+
+# .next_siblings 를이용해 아래 있는 태그들에 접근
+for sibling in p.next_siblings:
+    print(sibling if sibling != '\n' else '')
+'''
+#-----------------------------------------------------------------------------
+#**********태그 객체 검색기능**************
+'''
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+# find_all(name, attrs, recursive, string, limit, **kwargs)#검색 옵션
+
+# name 정보를 이용한 태그 검색
+a_tags = soup.find_all('a')
+print(a_tags)'''
+#-----------------------------------------------------------------------------
+'''
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+# find_all(name, attrs, recursive, string, limit, **kwargs)
+
+# attrs 정보를 이용한 태그 검색 
+attr = {'class':'sister', 'id': 'link1'}
+first_a = soup.find_all('a', attrs=attr)
+print(first_a)'''
+#-----------------------------------------------------------------------------
+
+'''
+from bs4 import BeautifulSoup
+import re
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+# find_all(name, attrs, recursive, string, limit, **kwargs)
+
+# string 정보를 이용해 Navigable Strings 정보를 이용한 검색
+regex = re.compile('Elsie')
+tags = soup.find_all(string= regex)
+print(tags)'''
+#-----------------------------------------------------------------------------
+'''
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+# find_all(name, attrs, recursive, string, limit, **kwargs)
+
+# limit 정보를 이용해 검색 결과 중 제한된 개수만 조회
+a_tags = soup.find_all('a', limit=2)
+print(a_tags)
+'''
+#-----------------------------------------------------------------------------
+'''
+from bs4 import BeautifulSoup
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+# find_all(name, attrs, recursive, string, limit, **kwargs)
+
+# 키워드 정보를 이용해 검색
+tags = soup.find_all(class_='story')
+print(tags)
+tags = soup.find_all(id='link1')
+print(tags)'''
+#-----------------------------------------------------------------------------
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+# find_all(name, attrs, recursive, string, limit, **kwargs)
+
+# recursive 정보를 이용해 재귀적 검색 여부 설정
+title = soup.find_all('b',recursive=True)
+print(title)
+title = soup.find_all('b',recursive=False)
+print(title)'''
+#-----------------------------------------------------------------------------'''
+'''from bs4 import BeautifulSoup
+
+soup = BeautifulSoup((read_file('three_sisters.html')),'lxml')
+
+#  find(name, attrs, recursive, string, **kwargs)     - limit
+
+tag = soup.find('a')
+print(tag)'''
+#-----------------------------------------------------------------------------'''
+'''
+from bs4 import BeautifulSoup
+import requests
+
+url = "http://www.consumerreports.org/cro/a-to-z-index/products/index.htm"
+
+# 서버의 response 정보를 이용해 response 객체 생성
+response = requests.get(url)
+
+# response 객체에서 html 코드에 해당 부분 추출
+data = response.text
+
+# bs4를 이용하여 html 코드를 soup 객체로 파싱
+soup = BeautifulSoup(data, 'html.parser')
+
+# 문서 내에 모든 <a>  태그 정보를 찾아 list 로 반환
+#tags = soup.find_all('a')
+
+#print("t",tags)
+
+#print(response.content)
+
+#status codes
+#print(response.status_code)
+
+# response.headers
+print(response.headers)
+
+for key,value in response.headers.items():
+    print(key,'   ',value)
+
+tags = soup.find_all('a')
+
+attr = {'class':'products-a-z__results__item'}
+first_a = soup.find_all('a', attrs=attr)
+print("t",first_a)
+
+
+'''
+#-----------------------------------------------------------------------------

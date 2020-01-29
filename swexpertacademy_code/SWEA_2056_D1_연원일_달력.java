@@ -17,9 +17,9 @@ class Solution
             day = date.substring(6,8);
             iMonth = Integer.parseInt(month);
             iDay = Integer.parseInt(day);
-            //¿ù ºñ±³
+            //Â¿Ã¹ ÂºÃ±Â±Â³
             if(iMonth>0 && iMonth<=12)
-                //ÀÏ ºñ±³
+                //Ã€Ã ÂºÃ±Â±Â³
                 if(iDay>0 && iDay<=month_arr[iMonth-1])
                     answer = date.substring(0,4) + "/" + month + "/" + day;
                 else

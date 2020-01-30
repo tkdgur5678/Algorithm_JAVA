@@ -1,0 +1,4 @@
+부분집합 Subset
+순열 Permutation
+
+System.exit(0) 탈출코드로 찾자마자 재귀함수 탈출

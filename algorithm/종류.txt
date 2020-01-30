@@ -1,5 +1,13 @@
 부분집합 Subset
+
 순열 Permutation
 - next_permutation 구현(c++에서는 지원하지만 다른언어는 구현해야함)
 
-System.exit(0) 탈출코드로 찾자마자 재귀함수 탈출
+스택
+- 배열로 구현해보기
+
+Memoization
+- 이전에 계산한 값을 메모리에 저장해서 매번 다시 계산하지 않도록 하여 실행속도를 개선(동적 계획법의 핵심이 되는 기술)
+
+DP(Dynamic Programming)
+

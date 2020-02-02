@@ -1,0 +1,38 @@
+import java.util.Arrays;
+import java.util.Scanner;
+ 
+public class Solution {
+ 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T, N, L;
+        T = sc.nextInt();
+ 
+        for (int test_case = 1; test_case <= T; test_case++) {
+            N = sc.nextInt();
+            L = sc.nextInt();
+            int[][] material = new int[N][2];   // 0 : 맛점수, 1 : 칼로리  
+            for (int i = 0; i < material.length; i++) {
+                material[i][0] = sc.nextInt();
+                material[i][1] = sc.nextInt();
+            }
+            int max = Integer.MIN_VALUE;
+            for (int i = 0; i < (1<<N); i++) {
+                int taste = 0, cal = 0;
+                for (int j = 0; j < N; j++) {
+                    if((i & (1<<j)) > 0) {
+                        taste += material[j][0];
+                        cal += material[j][1];
+                    }
+                }
+                //칼로리가 안넘어가는 부분집합이라면 max 비교
+                if(cal<=L) {
+                    max = Integer.max(max, taste);
+                }
+            }
+            System.out.println("#"+test_case+" "+max);
+        }
+ 
+    }
+ 
+}

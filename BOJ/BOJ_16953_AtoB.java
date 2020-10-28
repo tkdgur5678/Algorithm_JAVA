@@ -1,10 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+import java.util.StringTokenizer;
 
-public class BOJ_16953_AtoB {
-    public static void main(String[] args) throws IOException {
+public class BOJ_1360_되돌리기 {
+
+	public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] tmp = br.readLine().split(" ");
         int target = Integer.parseInt(tmp[1]);
@@ -14,7 +19,7 @@ public class BOJ_16953_AtoB {
         int ret = -1;
         Queue<Node> queue = new LinkedList<>();
         Set<String> set = new HashSet<>();
-        queue.offer(new Node(n, 1));
+        queue.add(new Node(n, 1));
         set.add(n);
         while(!queue.isEmpty()) {
             String nowStr = queue.peek().n;
@@ -30,11 +35,11 @@ public class BOJ_16953_AtoB {
             String b = (now * 2) + "";
             if(!set.contains(a)) {
                 set.add(a);
-                queue.offer(new Node(a, p + 1));
+                queue.add(new Node(a, p + 1));
             }
             if(!set.contains(b)) {
                 set.add(b);
-                queue.offer(new Node(b, p + 1));
+                queue.add(new Node(b, p + 1));
             }
         }
         return ret;
@@ -48,4 +53,5 @@ public class BOJ_16953_AtoB {
             this.p = p;
         }
     }
+
 }
